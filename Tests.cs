@@ -2,39 +2,31 @@
 
 sealed class Tests
 {
-    [TestCase("Day1.txt", 1123, 6695)]
-    [TestCase("Day1Example.txt", 3, 6)]
-    public async Task Day1(string resource, int part1Result, int part2Result)
-    {
-        var day = new Day1();
-        using (Assert.EnterMultipleScope())
-        {
-            Assert.That(await day.Part1(resource), Is.EqualTo(part1Result));
-            Assert.That(await day.Part2(resource), Is.EqualTo(part2Result));
-        }
-    }
+    [TestCase("Day1.txt", DayPart.First, 1123)]
+    [TestCase("Day1.txt", DayPart.Second, 6695)]
+    [TestCase("Day1Example.txt", DayPart.First, 3)]
+    [TestCase("Day1Example.txt", DayPart.Second, 6)]
+    public async Task Day1(string resource, DayPart part, int result)
+        => Assert.That(await new Day1().Part(part, resource), Is.EqualTo(result));
 
-    [TestCase("Day2.txt", 29940924880, 48631958998)]
-    [TestCase("Day2Example.txt", 1227775554, 4174379265)]
-    public async Task Day2(string resource, long part1Result, long part2Result)
-    {
-        var day = new Day2();
-        using (Assert.EnterMultipleScope())
-        {
-            Assert.That(await day.Part1(resource), Is.EqualTo(part1Result));
-            Assert.That(await day.Part2(resource), Is.EqualTo(part2Result));
-        }
-    }
+    [TestCase("Day2.txt", DayPart.First, 29940924880)]
+    [TestCase("Day2.txt", DayPart.Second, 48631958998)]
+    [TestCase("Day2Example.txt", DayPart.First, 1227775554)]
+    [TestCase("Day2Example.txt", DayPart.Second, 4174379265)]
+    public async Task Day2(string resource, DayPart part, long result)
+        => Assert.That(await new Day2().Part(part, resource), Is.EqualTo(result));
 
-    [TestCase("Day3.txt", 17613, 175304218462560)]
-    [TestCase("Day3Example.txt", 357, 3121910778619)]
-    public async Task Day3(string resource, long part1Result, long part2Result)
-    {
-        var day = new Day3();
-        using (Assert.EnterMultipleScope())
-        {
-            Assert.That(await day.Part1(resource), Is.EqualTo(part1Result));
-            Assert.That(await day.Part2(resource), Is.EqualTo(part2Result));
-        }
-    }
+    [TestCase("Day3.txt", DayPart.First, 17613)]
+    [TestCase("Day3.txt", DayPart.Second, 175304218462560)]
+    [TestCase("Day3Example.txt", DayPart.First, 357)]
+    [TestCase("Day3Example.txt", DayPart.Second, 3121910778619)]
+    public async Task Day3(string resource, DayPart part, long result)
+        => Assert.That(await new Day3().Part(part, resource), Is.EqualTo(result));
+
+    [TestCase("Day4.txt", DayPart.First, 1502)]
+    [TestCase("Day4.txt", DayPart.Second, 9083)]
+    [TestCase("Day4Example.txt", DayPart.First, 13)]
+    [TestCase("Day4Example.txt", DayPart.Second, 43)]
+    public async Task Day4(string resource, DayPart part, int result)
+        => Assert.That(await new Day4().Part(part, resource), Is.EqualTo(result));
 }
