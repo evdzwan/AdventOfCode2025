@@ -29,4 +29,11 @@ sealed class Tests
     [TestCase("Day4Example.txt", DayPart.Second, 43)]
     public async Task Day4(string resource, DayPart part, int result)
         => Assert.That(await new Day4().Part(part, resource), Is.EqualTo(result));
+
+    [TestCase("Day5.txt", DayPart.First, 640)]
+    [TestCase("Day5.txt", DayPart.Second, 365804144481581)]
+    [TestCase("Day5Example.txt", DayPart.First, 3)]
+    [TestCase("Day5Example.txt", DayPart.Second, 14)]
+    public async Task Day5(string resource, DayPart part, long result)
+        => Assert.That(await new Day5().Part(part, resource), Is.EqualTo(result));
 }
