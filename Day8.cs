@@ -10,11 +10,11 @@ sealed class Day8 : Day<long>
                          .ToArray();
 
         var connections = boxes.ToDictionary(box => box, box => new HashSet<(int X, int Y, int Z)>([box]));
-        foreach (var (first, second) in boxes.SelectMany(_ => boxes, (f, s) => (First: f, Second: s))
-                                             .Where(e => e.First.CompareTo(e.Second) < 0)
-                                             .OrderBy(e => DistanceSquared(e.First, e.Second))
-                                             .Select(e => (e.First, e.Second))
-                                             .Take(boxes.Length == 20 ? 10 : 1000))
+        foreach (var (first, second, _) in boxes.SelectMany(_ => boxes, (f, s) => (First: f, Second: s))
+                                                .Where(e => e.First.CompareTo(e.Second) < 0)
+                                                .Select(e => (e.First, e.Second, Distance: DistanceSquared(e.First, e.Second)))
+                                                .OrderBy(e => e.Distance)
+                                                .Take(boxes.Length == 20 ? 10 : 1000))
         {
             if (connections[first] != connections[second])
             {
@@ -48,11 +48,11 @@ sealed class Day8 : Day<long>
         var total = 0L;
         var componentCount = boxes.Length;
         var connections = boxes.ToDictionary(box => box, box => new HashSet<(long X, long Y, long Z)>([box]));
-        foreach (var (first, second) in boxes.SelectMany(_ => boxes, (f, s) => (First: f, Second: s))
-                                             .Where(e => e.First.CompareTo(e.Second) < 0)
-                                             .OrderBy(e => DistanceSquared(e.First, e.Second))
-                                             .Select(e => (e.First, e.Second))
-                                             .TakeWhile(_ => componentCount > 1))
+        foreach (var (first, second, _) in boxes.SelectMany(_ => boxes, (f, s) => (First: f, Second: s))
+                                                .Where(e => e.First.CompareTo(e.Second) < 0)
+                                                .Select(e => (e.First, e.Second, Distance: DistanceSquared(e.First, e.Second)))
+                                                .OrderBy(e => e.Distance)
+                                                .TakeWhile(_ => componentCount > 1))
         {
             if (connections[first] != connections[second])
             {
