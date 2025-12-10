@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode;
 
-sealed class Day1 : Day<int>
+sealed class Day01 : Day<int>
 {
     protected override int CalculatePart1(string input)
     {

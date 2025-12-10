@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode;
 
-sealed class Day3 : Day<long>
+sealed class Day03 : Day<long>
 {
     protected override long CalculatePart1(string input)
     {

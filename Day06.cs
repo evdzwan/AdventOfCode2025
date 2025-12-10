@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode;
 
-sealed class Day6 : Day<ulong>
+sealed class Day06 : Day<ulong>
 {
     protected override ulong CalculatePart1(string input)
     {
