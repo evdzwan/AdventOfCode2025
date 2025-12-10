@@ -58,6 +58,13 @@ sealed class Tests
     public async Task Day8(string resource, DayPart part, long result)
         => Assert.That(await new Day8().Part(part, resource), Is.EqualTo(result));
 
+    [TestCase("Day9.txt", DayPart.First, 4735222687)]
+    [TestCase("Day9.txt", DayPart.Second, 1569262188)]
+    [TestCase("Day9Example.txt", DayPart.First, 50)]
+    [TestCase("Day9Example.txt", DayPart.Second, 24)]
+    public async Task Day9(string resource, DayPart part, long result)
+        => Assert.That(await new Day9().Part(part, resource), Is.EqualTo(result));
+
     //[TestCase("Day10.txt", DayPart.First, 0)]
     //[TestCase("Day10.txt", DayPart.Second, 0)]
     [TestCase("Day10Example.txt", DayPart.First, 0)]
