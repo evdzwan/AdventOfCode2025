@@ -14,7 +14,7 @@ sealed class Day10 : Day<int>
                             .Select(machine => Machine.FromParts(machine.LightPattern, machine.Buttons, machine.JoltageRequirement))
                             .ToArray();
 
-        return machines.Select(m => m.FindMinimalButtonPresses()).Sum();
+        return machines.Select(m => m.CalculateMinimalButtonPresses()).Sum();
     }
 
     protected override int CalculatePart2(string input)
@@ -27,18 +27,18 @@ sealed class Day10 : Day<int>
                             .Select(machine => Machine.FromParts(machine.LightPattern, machine.Buttons, machine.JoltageRequirement))
                             .ToArray();
 
-        return machines.AsParallel().Select(m => m.FindMinimalButtonPressesForJoltageRequirement()).Sum();
+        return machines.AsParallel().Select(m => m.CalculateMinimalButtonPressesForJoltageRequirement()).Sum();
     }
 
     sealed class Machine(int[] lightIndexes, int[][] buttons, int[] joltageRequirements)
     {
-        public int FindMinimalButtonPresses()
+        public int CalculateMinimalButtonPresses()
             => CountOnes(Enumerable.Range(0, 1 << buttons.Length)
                                    .Where(pattern => PressButton(GetPressedButtonIndexes(pattern)).SequenceEqual(lightIndexes))
                                    .OrderBy(CountOnes)
                                    .First());
 
-        public int FindMinimalButtonPressesForJoltageRequirement()
+        public int CalculateMinimalButtonPressesForJoltageRequirement()
         {
             using var ctx = new Context();
             var optimize = ctx.MkOptimize();
