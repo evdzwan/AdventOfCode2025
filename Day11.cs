@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode;
 
-sealed class Day11 : Day<int>
+sealed class Day11 : Day<long>
 {
-    protected override int CalculatePart1(string input)
+    protected override long CalculatePart1(string input)
     {
         var outputs = input.Split(Environment.NewLine)
                            .Select((line, index) => (Parts: line.Split(':', StringSplitOptions.TrimEntries), Index: index))
@@ -22,25 +22,31 @@ sealed class Day11 : Day<int>
         }
     }
 
-    protected override int CalculatePart2(string input)
+    protected override long CalculatePart2(string input)
     {
         var outputs = input.Split(Environment.NewLine)
-                                   .Select((line, index) => (Parts: line.Split(':', StringSplitOptions.TrimEntries), Index: index))
-                                   .Select(e => (Id: e.Parts[0], Outputs: e.Parts[1].Split(' ', StringSplitOptions.TrimEntries)))
-                                   .ToDictionary(e => e.Id, e => e.Outputs);
+                           .Select((line, index) => (Parts: line.Split(':', StringSplitOptions.TrimEntries), Index: index))
+                           .Select(e => (Id: e.Parts[0], Outputs: e.Parts[1].Split(' ', StringSplitOptions.TrimEntries)))
+                           .ToDictionary(e => e.Id, e => e.Outputs);
 
-        return Move("svr", containsDAC: false, containsFFT: false);
+        var store = new Dictionary<(string, string), long>();
+        var countFFTFirst = CountRoutes("svr", "fft") * CountRoutes("fft", "dac") * CountRoutes("dac", "out");
+        var orderDACFirst = CountRoutes("svr", "dac") * CountRoutes("dac", "fft") * CountRoutes("fft", "out");
+        return countFFTFirst + orderDACFirst;
 
-        int Move(string id, bool containsDAC, bool containsFFT)
+        long CountRoutes(string origin, string destination)
         {
-            if (id == "out")
+            if (store.TryGetValue((origin, destination), out var result))
             {
-                return containsDAC && containsFFT ? 1 : 0;
+                return result;
             }
 
-            containsDAC |= id == "dac";
-            containsFFT |= id == "fft";
-            return outputs[id].Sum(output => Move(output, containsDAC, containsFFT));
+            return store[(origin, destination)] = (origin, destination) switch
+            {
+                _ when origin == destination => 1,
+                _ when outputs.TryGetValue(origin, out var outputsForOrigin) => outputsForOrigin.Sum(output => CountRoutes(output, destination)),
+                _ => 0
+            };
         }
     }
 }
