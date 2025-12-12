@@ -1,10 +1,8 @@
-﻿using System.Drawing;
+﻿namespace AdventOfCode;
 
-namespace AdventOfCode;
-
-sealed class Day12 : Day<long>
+sealed class Day12 : Day<int>
 {
-    protected override long CalculatePart1(string input)
+    protected override int CalculatePart1(string input)
     {
         var sections = input.Split($"{Environment.NewLine}{Environment.NewLine}");
         var shapes = sections.Take(6)
@@ -27,25 +25,9 @@ sealed class Day12 : Day<long>
                               .Select(e => (Size: (X: e.Size[0], Y: e.Size[1]), e.Quantities))
                               .ToArray();
 
-        var count = regions.Length == 3 ? -1 : 0L;
-        foreach (var (size, quantities) in regions)
-        {
-            var requiredArea = 0;
-            var availableArea = size.X * size.Y;
-            for (var i = 0; i < quantities.Length; i++)
-            {
-                requiredArea += quantities[i] * shapes[i].AreaSize;
-            }
-
-            if (requiredArea < availableArea)
-            {
-                count++;
-            }
-        }
-
-        return count;
+        return regions.Count(region => region.Quantities.Select((quantity, index) => quantity * shapes[index].AreaSize).Sum() < region.Size.X * region.Size.Y);
     }
 
-    protected override long CalculatePart2(string input)
+    protected override int CalculatePart2(string input)
         => throw new NotSupportedException();
 }
