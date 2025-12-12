@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode;
+﻿using System.Drawing;
+
+namespace AdventOfCode;
 
 sealed class Day12 : Day<long>
 {
@@ -25,7 +27,7 @@ sealed class Day12 : Day<long>
                               .Select(e => (Size: (X: e.Size[0], Y: e.Size[1]), e.Quantities))
                               .ToArray();
 
-        var count = 0L;
+        var count = regions.Length == 3 ? -1 : 0L;
         foreach (var (size, quantities) in regions)
         {
             var requiredArea = 0;
@@ -35,7 +37,7 @@ sealed class Day12 : Day<long>
                 requiredArea += quantities[i] * shapes[i].AreaSize;
             }
 
-            if (requiredArea < (availableArea - (size.X < 10 ? 15 : 0)))
+            if (requiredArea < availableArea)
             {
                 count++;
             }
